@@ -56,6 +56,10 @@ var AppPlaylist = function(config){
   }
 
   this.append = function(id) {
+    if (!id || id == '') {
+      return;
+    }
+
     var $result = $('<li></li>');
     self.$el.append($result);
     YTHelper.get(YTHelper.SEARCH_TYPE_VIDEO, id, function(data) {
@@ -84,7 +88,11 @@ var AppPlaylist = function(config){
 
   this.save = function(items) {
     if (items) {
-      self.items = items;
+      var filtered = self.items.filter(function(item){
+        return item != '';
+      });
+
+      self.items = filtered;
     }
 
     window.localStorage.setItem(config.key, self.items);
