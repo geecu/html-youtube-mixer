@@ -56,8 +56,10 @@ var AppPlaylist = function(config){
   }
 
   this.append = function(id) {
+    var $result = $('<li></li>');
+    self.$el.append($result);
     YTHelper.get(YTHelper.SEARCH_TYPE_VIDEO, id, function(data) {
-      self.$el.append(AppView.format_playlist_result(new YTHelper.YTRecord(data.entry)));
+      $result.html(AppView.format_playlist_result(new YTHelper.YTRecord(data.entry)));
       self.enableSortable();
     });
 
