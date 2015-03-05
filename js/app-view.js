@@ -1,6 +1,22 @@
 
 var AppView = {
   templates : {
+    'playlist.result.row' : '<li class="record row" data-id="{id}">'+
+                            '<div class="col-xs-3 thumbnail">'+
+                              '<img src="{thumbnail}"><span class="duration">{duration_fmt}</span>'+
+                            '</div>'+
+                            '<div class="col-xs-9">'+
+                              '<h4>{title}</h4>'+
+                              '<i>{date_fmt} - {views} Views</i>'+
+                              '<div class="author">Auhoren: {authors} </div>'+
+                              '<div class="links">'+
+                              '<a class="sort" >sort</a><br/>'+
+                              '<a class="add-to-player" href="#player1" data-id="{id}" >+player1</a><br/>'+
+                              '<a class="add-to-player" href="#player2" data-id="{id}" >+player2</a><br/>'+
+                              '<a class="delete-from-playlist" data-id="{id}" >delete</a><br/>'+
+                            '</div>'+
+                            '</div>'+
+                          '</li>',
     'search.result.row' : '<div class="record row" data-id="{id}">'+
                             '<div class="col-xs-3 thumbnail">'+
                               '<img src="{thumbnail}"><span class="duration">{duration_fmt}</span>'+
@@ -12,7 +28,8 @@ var AppView = {
                               '<div class="links">'+
                                 '<a class="add-to-player" href="#player1" data-id="{id}" >+player1</a><br/>'+
                                 '<a class="add-to-player" href="#player2" data-id="{id}" >+player2</a><br/>'+
-                                '<a href="{yt_url}" target="_blank">&gt;youtube</a>'+
+                                '<a class="add-to-playlist" href="#playlist" data-id="{id}" >+playlist</a><br/>'+
+                                '<!--<a href="{yt_url}" target="_blank">&gt;youtube</a>-->'+
                               '</div>'+
                             '</div>'+
                           '</div>',
@@ -35,16 +52,23 @@ AppView.render_template =function(template, vars){
   return str;
 };
 
-AppView.format_search_result = function(yt_record){
+AppView.format_authors = function(yt_record){
   var authors = '', author;
 
   for(var j = 0; j < yt_record.authors.length; j++){
     author  = yt_record.authors[j];
     authors+= AppView.render_template('search.result.row.author', {
-                                                            'author_uri': author.uri.$t,
-                                                            'author_name': author.name.$t
-                                                          });
+      'author_uri': author.uri.$t,
+      'author_name': author.name.$t
+    });
   }
 
-  return AppView.render_template('search.result.row', $.extend(yt_record, {authors:authors }));
+  return authors;
+}
+
+AppView.format_search_result = function(yt_record){
+  return AppView.render_template('search.result.row', $.extend(yt_record, {authors: AppView.format_authors(yt_record) }));
+};
+AppView.format_playlist_result = function(yt_record){
+  return AppView.render_template('playlist.result.row', $.extend(yt_record, {authors: AppView.format_authors(yt_record) }));
 };

@@ -6,12 +6,22 @@ YTHelper.API_SUGGEST_URL   = 'http://suggestqueries.google.com/complete/search?c
 YTHelper.SEARCH_TYPE_VIDEO = 'videos';
 
 YTHelper.search = function(type, query, callback){
-    $.get(YTHelper.API_VIDEO_URL+'/'+type,
+  $.get(YTHelper.API_VIDEO_URL+'/'+type,
+    {
+      'max-results':50,
+      //'orderby': 'relevance',
+      alt: 'json',
+      q: query
+    },
+    function(data){
+      callback(data);
+    });
+};
+
+YTHelper.get = function(type, id, callback){
+    $.get(YTHelper.API_VIDEO_URL+'/'+type + '/' + id,
           {
-            'max-results':50,
-            //'orderby': 'relevance',
-            alt: 'json',
-            q: query
+            alt: 'json'
           },
           function(data){
             callback(data);

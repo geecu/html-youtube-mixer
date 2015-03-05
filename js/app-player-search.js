@@ -32,10 +32,4 @@ var AppPlayerSearch = function(player){
         YTHelper.suggest(request.term, response);
       },
   });
-
-  //clickable result rows
-  $(document).on('click', search_result_selector+' .record', function(){
-    var video_id = $(this).data('id');
-    player.play(video_id);
-  });
 };

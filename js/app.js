@@ -11,6 +11,20 @@ jQuery(function($){
     var player = ($(this).attr('href').indexOf('player1') > -1) ? App.player1 : App.player2;
     player.play($(this).data('id'));
   });
+  $(document).on('click', 'a.add-to-playlist', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    App.playlist.add($(this).data('id'));
+  });
+  $(document).on('click', 'a.delete-from-playlist', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    App.playlist.delete($(this).data('id'));
+  });
+  $(document).on('submit', 'form.search-form', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+  });
 });
 
 //triggered after http://www.youtube.com/player_api loaded
@@ -23,7 +37,9 @@ var App = {
   bootstrap: function(){
     App.player1 = new AppPlayer('player1', {player: {on_ready: function(){ App.slider.value(-50); }}});
     App.player2 = new AppPlayer('player2', {player: {on_ready: function(){ App.slider.value(-50); }}});
+    App.playlist = new AppPlaylist({});
     App.slider  = new AppVolumeSlider('volume-slider');
+    //$('#search-player1-input').val('radioactive'); $('#search-player1-button').click();
   },
 
   is_ready: function(){
