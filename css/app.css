@@ -141,8 +141,10 @@ h2{
 }
 
 .results {
+  max-width: 500px;
   max-height: 500px;
   overflow: auto;
+  margin: 0 auto;
 }
 
 .search-form .form-group {
