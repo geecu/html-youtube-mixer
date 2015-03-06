@@ -88,7 +88,7 @@ var AppPlaylist = function(config){
 
   this.save = function(items) {
     if (items) {
-      var filtered = self.items.filter(function(item){
+      var filtered = items.filter(function(item){
         return item != '';
       });
 
